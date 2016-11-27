@@ -99,7 +99,7 @@ li.current-menu-item:before {
     color: #01c87b;
     font-weight: 300;
 }
-h2.blog-title-pro{color: #fff;}
+h2.blog-title-pro{color: #fff; margin-top:11px}
 h2.blog-title-pro:after {
     content: "";
     display: block;
