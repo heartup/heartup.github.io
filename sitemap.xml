@@ -5,9 +5,73 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/sitemap.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 28 Nov 2016 01:21:04 +0800</pubDate>
-    <lastBuildDate>Mon, 28 Nov 2016 01:21:04 +0800</lastBuildDate>
+    <pubDate>Sat, 03 Dec 2016 14:54:03 +0800</pubDate>
+    <lastBuildDate>Sat, 03 Dec 2016 14:54:03 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Scala函数式编程(一)</title>
+        <description>&lt;p&gt;#函数式编程简介
+只用pure function来开发程序,没有side effect的函数称为pure function,如果一个函数除了返回值外还产生了其他效果,那么它就是一个有side effect的函数.&lt;/p&gt;
+
+&lt;p&gt;functional programming is a restriction on how we write programs, but not on what programs we can express.
+函数式编程是一种方法
+##有side effect的函数举例
+&lt;code class=&quot;highlighter-rouge&quot;&gt;scala
+class Cafe {
+  def buyCoffee(cc: CreditCard): Coffee = {
+    val cup = new Coffee()
+    cc.charge(cup.price)
+    cup
+  }
+}
+&lt;/code&gt;
+这个函数不仅return一杯咖啡,在&lt;code class=&quot;highlighter-rouge&quot;&gt;cc.charge&lt;/code&gt;方法里可能调用了银行的接口,而且可能在内部系统持久化了一条记录.
+##pure function方式的实现
+```scala
+class Cafe {
+  def buyCoffee(cc: CreditCard): (Coffee, Charge) = {
+    val cup = new Coffee()
+    (cup, Charge(cc, cup.price))
+  }
+}&lt;/p&gt;
+
+&lt;p&gt;case class Charge(cc: CreditCard, amount: Double) {
+  def combine(other: Charge): Charge =
+    if (cc == other.cc)
+      Charge(cc, amount + cc.amount)
+    else
+      throw new Exception(“不能合并不同信用卡的费用”)
+}
+&lt;code class=&quot;highlighter-rouge&quot;&gt;
+这种实现方式有什么好处: 可以方便编写测试用的CreditCardMock(不用实际调用银行的接口)来进行测试.另外如果有购买多杯咖啡或者购买其他饮料,最后店员就可以统一结账,而不用每次购买都刷信用卡产生一笔交易服务费给信用卡公司.实现方式如下:
+&lt;/code&gt;scala
+def buyCoffees(cc: Credit, n: Integer) (List[Coffee], Charge) = {
+  val purchases: List[(Coffee, Charge)] = List.fill(n)(buyCoffee(cc))
+  val (coffees, charges) = purchases.unzip
+  (coffees, charges.reduce((c1, c2) =&amp;gt; c1.combine(c2)))
+}
+```
+利用这种方法可以将任何有side effect的函数的side effect推到程序的最外层.函数式程序经常是只包含pure function的核心,以及一层用来处理side effect的逻辑.
+##到底什么是pure function
+&lt;strong&gt;定义Referential transparency&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;e是一个表达式,如果对所有的的程序p执行如下操作不改变p的意义,那么称e是Referential transparency的:将程序p中所有出现e的地方用e的计算结果来代替&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;定义pure function&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;一个函数f式pure的,如果对所有Referential transparency的x，表达成f(x)是Referential transparency的.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;程序的这种推理过程叫做substitution model.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 03 Dec 2016 00:00:00 +0800</pubDate>
+        <link>https://heartup.github.iohttps://heartup.github.io/scala/2016/12/03/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%80).html</link>
+        <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/scala/2016/12/03/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%80).html</guid>
+        
+        
+        <category>scala</category>
+        
+      </item>
     
       <item>
         <title>Welcome</title>
@@ -17,22 +81,6 @@
         <link>https://heartup.github.iohttps://heartup.github.io/others/2016/11/27/welcome.html</link>
         <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/others/2016/11/27/welcome.html</guid>
         
-        
-        <category>others</category>
-        
-      </item>
-    
-      <item>
-        <title>Java Test</title>
-        <description>&lt;p&gt;Java&lt;/p&gt;
-
-</description>
-        <pubDate>Fri, 25 Nov 2016 00:00:00 +0800</pubDate>
-        <link>https://heartup.github.iohttps://heartup.github.io/java/others/2016/11/25/java-test.html</link>
-        <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/java/others/2016/11/25/java-test.html</guid>
-        
-        
-        <category>java</category>
         
         <category>others</category>
         
