@@ -201,50 +201,54 @@
         <div class="col-md-9 col-xs-12 full">
           <div class="post-content well">
 <article class="content">
-    <div class="post"><p>#函数式编程简介
-只用pure function来开发程序,没有side effect的函数称为pure function,如果一个函数除了返回值外还产生了其他效果,那么它就是一个有side effect的函数.</p>
+    <div class="post"><h1 id="section">函数式编程简介</h1>
+<p>只用pure function来开发程序,没有side effect的函数称为pure function,如果一个函数除了返回值外还产生了其他效果,那么它就是一个有side effect的函数.</p>
 
 <p>functional programming is a restriction on how we write programs, but not on what programs we can express.
-函数式编程是一种方法
-##有side effect的函数举例
-<code class="highlighter-rouge">java
-class Cafe {
-  def buyCoffee(cc: CreditCard): Coffee = {
-    val cup = new Coffee()
-    cc.charge(cup.price)
-    cup
-  }
-}
-</code>
-这个函数不仅return一杯咖啡,在<code class="highlighter-rouge">cc.charge</code>方法里可能调用了银行的接口,而且可能在内部系统持久化了一条记录.
-##pure function方式的实现
-```java
-class Cafe {
-  def buyCoffee(cc: CreditCard): (Coffee, Charge) = {
-    val cup = new Coffee()
-    (cup, Charge(cc, cup.price))
-  }
-}</p>
+函数式编程是一种方法</p>
 
-<p>case class Charge(cc: CreditCard, amount: Double) {
-  def combine(other: Charge): Charge =
-    if (cc == other.cc)
-      Charge(cc, amount + cc.amount)
-    else
-      throw new Exception(“不能合并不同信用卡的费用”)
-}
-<code class="highlighter-rouge">
-这种实现方式有什么好处: 可以方便编写测试用的CreditCardMock(不用实际调用银行的接口)来进行测试.另外如果有购买多杯咖啡或者购买其他饮料,最后店员就可以统一结账,而不用每次购买都刷信用卡产生一笔交易服务费给信用卡公司.实现方式如下:
-</code>scala
-def buyCoffees(cc: Credit, n: Integer) (List[Coffee], Charge) = {
-  val purchases: List[(Coffee, Charge)] = List.fill(n)(buyCoffee(cc))
-  val (coffees, charges) = purchases.unzip
-  (coffees, charges.reduce((c1, c2) =&gt; c1.combine(c2)))
-}
-```
-利用这种方法可以将任何有side effect的函数的side effect推到程序的最外层.函数式程序经常是只包含pure function的核心,以及一层用来处理side effect的逻辑.
-##到底什么是pure function
-<strong>定义Referential transparency</strong></p>
+<h2 id="side-effect">有side effect的函数举例</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Cafe</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">buyCoffee</span><span class="o">(</span><span class="n">cc</span><span class="k">:</span> <span class="kt">CreditCard</span><span class="o">)</span><span class="k">:</span> <span class="kt">Coffee</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">cup</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Coffee</span><span class="o">()</span>
+    <span class="n">cc</span><span class="o">.</span><span class="n">charge</span><span class="o">(</span><span class="n">cup</span><span class="o">.</span><span class="n">price</span><span class="o">)</span>
+    <span class="n">cup</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>这个函数不仅return一杯咖啡,在<code class="highlighter-rouge">cc.charge</code>方法里可能调用了银行的接口,而且可能在内部系统持久化了一条记录.</p>
+
+<h2 id="pure-function">pure function方式的实现</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Cafe</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">buyCoffee</span><span class="o">(</span><span class="n">cc</span><span class="k">:</span> <span class="kt">CreditCard</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">Coffee</span><span class="o">,</span> <span class="kt">Charge</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">cup</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Coffee</span><span class="o">()</span>
+    <span class="o">(</span><span class="n">cup</span><span class="o">,</span> <span class="nc">Charge</span><span class="o">(</span><span class="n">cc</span><span class="o">,</span> <span class="n">cup</span><span class="o">.</span><span class="n">price</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Charge</span><span class="o">(</span><span class="n">cc</span><span class="k">:</span> <span class="kt">CreditCard</span><span class="o">,</span> <span class="n">amount</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">combine</span><span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">Charge</span><span class="o">)</span><span class="k">:</span> <span class="kt">Charge</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cc</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">cc</span><span class="o">)</span>
+      <span class="nc">Charge</span><span class="o">(</span><span class="n">cc</span><span class="o">,</span> <span class="n">amount</span> <span class="o">+</span> <span class="n">cc</span><span class="o">.</span><span class="n">amount</span><span class="o">)</span>
+    <span class="k">else</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nc">Exception</span><span class="o">(</span><span class="s">"不能合并不同信用卡的费用"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>这种实现方式有什么好处: 可以方便编写测试用的CreditCardMock(不用实际调用银行的接口)来进行测试.另外如果有购买多杯咖啡或者购买其他饮料,最后店员就可以统一结账,而不用每次购买都刷信用卡产生一笔交易服务费给信用卡公司.实现方式如下:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="n">buyCoffees</span><span class="o">(</span><span class="n">cc</span><span class="k">:</span> <span class="kt">Credit</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Integer</span><span class="o">)</span> <span class="o">(</span><span class="nc">List</span><span class="o">[</span><span class="kt">Coffee</span><span class="o">],</span> <span class="nc">Charge</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">purchases</span><span class="k">:</span> <span class="kt">List</span><span class="o">[(</span><span class="kt">Coffee</span>, <span class="kt">Charge</span><span class="o">)]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">.</span><span class="n">fill</span><span class="o">(</span><span class="n">n</span><span class="o">)(</span><span class="n">buyCoffee</span><span class="o">(</span><span class="n">cc</span><span class="o">))</span>
+  <span class="k">val</span> <span class="o">(</span><span class="n">coffees</span><span class="o">,</span> <span class="n">charges</span><span class="o">)</span> <span class="k">=</span> <span class="n">purchases</span><span class="o">.</span><span class="n">unzip</span>
+  <span class="o">(</span><span class="n">coffees</span><span class="o">,</span> <span class="n">charges</span><span class="o">.</span><span class="n">reduce</span><span class="o">((</span><span class="n">c1</span><span class="o">,</span> <span class="n">c2</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">c1</span><span class="o">.</span><span class="n">combine</span><span class="o">(</span><span class="n">c2</span><span class="o">)))</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>利用这种方法可以将任何有side effect的函数的side effect推到程序的最外层.函数式程序经常是只包含pure function的核心,以及一层用来处理side effect的逻辑.</p>
+
+<h2 id="pure-function-1">到底什么是pure function</h2>
+<p><strong>定义Referential transparency</strong></p>
 
 <p><strong>e是一个表达式,如果对所有的的程序p执行如下操作不改变p的意义,那么称e是Referential transparency的:将程序p中所有出现e的地方用e的计算结果来代替</strong></p>
 
