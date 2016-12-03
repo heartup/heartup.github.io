@@ -207,7 +207,7 @@
 <p>functional programming is a restriction on how we write programs, but not on what programs we can express.
 函数式编程是一种方法
 ##有side effect的函数举例
-<code class="highlighter-rouge">scala
+<code class="highlighter-rouge">java
 class Cafe {
   def buyCoffee(cc: CreditCard): Coffee = {
     val cup = new Coffee()
@@ -218,7 +218,7 @@ class Cafe {
 </code>
 这个函数不仅return一杯咖啡,在<code class="highlighter-rouge">cc.charge</code>方法里可能调用了银行的接口,而且可能在内部系统持久化了一条记录.
 ##pure function方式的实现
-```scala
+```java
 class Cafe {
   def buyCoffee(cc: CreditCard): (Coffee, Charge) = {
     val cup = new Coffee()

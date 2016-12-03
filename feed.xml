@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 03 Dec 2016 14:54:03 +0800</pubDate>
-    <lastBuildDate>Sat, 03 Dec 2016 14:54:03 +0800</lastBuildDate>
+    <pubDate>Sat, 03 Dec 2016 14:56:59 +0800</pubDate>
+    <lastBuildDate>Sat, 03 Dec 2016 14:56:59 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -17,7 +17,7 @@
 &lt;p&gt;functional programming is a restriction on how we write programs, but not on what programs we can express.
 函数式编程是一种方法
 ##有side effect的函数举例
-&lt;code class=&quot;highlighter-rouge&quot;&gt;scala
+&lt;code class=&quot;highlighter-rouge&quot;&gt;java
 class Cafe {
   def buyCoffee(cc: CreditCard): Coffee = {
     val cup = new Coffee()
@@ -28,7 +28,7 @@ class Cafe {
 &lt;/code&gt;
 这个函数不仅return一杯咖啡,在&lt;code class=&quot;highlighter-rouge&quot;&gt;cc.charge&lt;/code&gt;方法里可能调用了银行的接口,而且可能在内部系统持久化了一条记录.
 ##pure function方式的实现
-```scala
+```java
 class Cafe {
   def buyCoffee(cc: CreditCard): (Coffee, Charge) = {
     val cup = new Coffee()
