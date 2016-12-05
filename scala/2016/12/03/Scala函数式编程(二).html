@@ -257,6 +257,7 @@
 
   <span class="c1">// 这是一个高阶函数,因为它接受一个函数作为参数
 </span>  <span class="c1">// 作为参数的函数一般为增强可读性命名为f,g,h等
+</span>  <span class="c1">// 作为参数的函数的类型定义用 =&gt; 连接输入和输出值
 </span>  <span class="k">def</span> <span class="n">formatMsg</span><span class="o">(</span><span class="n">calcType</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">msg</span> <span class="k">=</span> <span class="s">"the %s of %d id %d"</span>
     <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">calcType</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">f</span><span class="o">(</span><span class="n">n</span><span class="o">))</span>
@@ -270,6 +271,40 @@
 </div>
 
 <h2 id="polymorphic-functions">Polymorphic functions</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">object</span> <span class="nc">App</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">findFirst</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">list</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">f</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="c1">// loop是closure
+</span>    <span class="c1">// a closure is a function together with a referencing environment for the non-local variables of that function.
+</span>    <span class="c1">// A closure allows a function to access variables outside its immediate lexical scope.
+</span>    <span class="c1">// 在这里在loop内部引用了外部变量list
+</span>    <span class="nd">@tailrec</span>
+    <span class="k">def</span> <span class="n">loop</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="n">list</span><span class="o">.</span><span class="n">length</span><span class="o">)</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">f</span><span class="o">(</span><span class="n">list</span><span class="o">(</span><span class="n">n</span><span class="o">)))</span> <span class="n">n</span>  <span class="c1">// 在内部函数里引用了外部list变量,就像在定义Int的表达式里引用了另一个变量一样
+</span>      <span class="k">else</span> <span class="n">loop</span><span class="o">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+
+    <span class="n">loop</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="c1">// anonymous function或称为function literal
+</span>    <span class="c1">// 至少为x,或者findFirst指明类型
+</span>    <span class="n">println</span><span class="o">(</span><span class="n">findFirst</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">),</span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">5</span><span class="o">))</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h2 id="polymorphic-functions-1">唯一实现的Polymorphic functions</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="k">def</span> <span class="n">partial1</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span>, <span class="kt">C</span><span class="o">](</span><span class="n">a</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">C</span><span class="o">)</span><span class="k">:</span> <span class="kt">B</span> <span class="o">=&gt;</span> <span class="n">C</span> <span class="k">=</span>
+    <span class="o">(</span><span class="n">b</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</code></pre>
+</div>
+<p>在这个函数里类型为C的值只能通过调用f函数来获取,所以只有这一种实现方式.类似的:
+<code class="highlighter-rouge">scala
+  def curry[A, B, C](f: (A, B) =&gt; C): A =&gt; (B =&gt; C) =
+    a =&gt; b =&gt; f(a, b)
+</code></p>
 </div>
 </article>
 <hr />
@@ -279,6 +314,20 @@
     
         
             
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://heartup.github.io/scala/2016/12/04/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%89).html">Scala函数式编程(三)</a>
+                    
+                        <small>(Categories: <a href="/category/scala">scala</a>)</small>
+                    
+                </li>
+                
+                
+            
         
     
 
@@ -286,10 +335,13 @@
     
         
             
-                
-                <div class="panel-body">
-                <h4>Related Posts</h4>
-                <ul>
+        
+    
+
+    
+    
+        
+            
                 
                 <li class="relatedPost">
                     <a href="https://heartup.github.io/scala/2016/12/03/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%80).html">Scala函数式编程(一)</a>
@@ -319,6 +371,8 @@
   
     <a class="prev pull-left" href="/scala/2016/12/03/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%80).html">&laquo; Scala函数式编程(一)</a>
   
+  
+    <a class="next pull-right" href="/scala/2016/12/04/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%89).html">Scala函数式编程(三) &raquo;</a>
   
 </div>
 
