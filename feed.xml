@@ -5,26 +5,22 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Dec 2016 09:42:09 +0800</pubDate>
-    <lastBuildDate>Mon, 05 Dec 2016 09:42:09 +0800</lastBuildDate>
+    <pubDate>Sat, 23 Dec 2017 19:33:17 +0800</pubDate>
+    <lastBuildDate>Sat, 23 Dec 2017 19:33:17 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>Scala函数式编程(三)</title>
-        <description>&lt;h1 id=&quot;section&quot;&gt;函数式数据结构&lt;/h1&gt;
-&lt;p&gt;函数式数据结构上的所有操作都是pure function,因此函数式数据结构的定义就决定了他是不可变的数据结构.&lt;/p&gt;
+        <title>第5章 机器学习基础</title>
+        <description>&lt;h1 id=&quot;section&quot;&gt;机器学习基础&lt;/h1&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;函数式的单链表&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;h2 id=&quot;overfittingunderfitting&quot;&gt;5.2 容量，Overfitting和Underfitting&lt;/h2&gt;
 </description>
-        <pubDate>Sun, 04 Dec 2016 00:00:00 +0800</pubDate>
-        <link>https://heartup.github.iohttps://heartup.github.io/scala/2016/12/04/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%89).html</link>
-        <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/scala/2016/12/04/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%B8%89).html</guid>
+        <pubDate>Fri, 22 Dec 2017 00:00:00 +0800</pubDate>
+        <link>https://heartup.github.iohttps://heartup.github.io/ai/2017/12/22/%E7%AC%AC5%E7%AB%A0-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.html</link>
+        <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/ai/2017/12/22/%E7%AC%AC5%E7%AB%A0-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.html</guid>
         
         
-        <category>scala</category>
+        <category>AI</category>
         
       </item>
     
@@ -86,7 +82,6 @@
 
   &lt;span class=&quot;c1&quot;&gt;// 这是一个高阶函数,因为它接受一个函数作为参数
 &lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 作为参数的函数一般为增强可读性命名为f,g,h等
-&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 作为参数的函数的类型定义用 =&amp;gt; 连接输入和输出值
 &lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;formatMsg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;calcType&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;the %s of %d id %d&quot;&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;calcType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
@@ -123,17 +118,6 @@
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-
-&lt;h2 id=&quot;polymorphic-functions-1&quot;&gt;唯一实现的Polymorphic functions&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;partial1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;, &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;, &lt;span class=&quot;kt&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;在这个函数里类型为C的值只能通过调用f函数来获取,所以只有这一种实现方式.类似的:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;scala
-  def curry[A, B, C](f: (A, B) =&amp;gt; C): A =&amp;gt; (B =&amp;gt; C) =
-    a =&amp;gt; b =&amp;gt; f(a, b)
-&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 03 Dec 2016 00:00:00 +0800</pubDate>
         <link>https://heartup.github.iohttps://heartup.github.io/scala/2016/12/03/Scala%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B(%E4%BA%8C).html</link>
