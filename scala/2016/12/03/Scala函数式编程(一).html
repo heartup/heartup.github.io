@@ -202,12 +202,14 @@
           <div class="post-content well">
 <article class="content">
     <div class="post"><h1 id="section">函数式编程简介</h1>
+
 <p>只用pure function来开发程序,没有side effect的函数称为pure function,如果一个函数除了返回值外还产生了其他效果,那么它就是一个有side effect的函数.</p>
 
 <p>functional programming is a restriction on how we write programs, but not on what programs we can express.
 函数式编程是一种方法</p>
 
 <h2 id="side-effect">有side effect的函数举例</h2>
+
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Cafe</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">buyCoffee</span><span class="o">(</span><span class="n">cc</span><span class="k">:</span> <span class="kt">CreditCard</span><span class="o">)</span><span class="k">:</span> <span class="kt">Coffee</span> <span class="o">=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">cup</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Coffee</span><span class="o">()</span>
@@ -220,6 +222,7 @@
 <p>这个函数不仅return一杯咖啡,在<code class="highlighter-rouge">cc.charge</code>方法里可能调用了银行的接口,而且可能在内部系统持久化了一条记录.</p>
 
 <h2 id="pure-function">pure function方式的实现</h2>
+
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Cafe</span> <span class="o">{</span>
   <span class="k">def</span> <span class="n">buyCoffee</span><span class="o">(</span><span class="n">cc</span><span class="k">:</span> <span class="kt">CreditCard</span><span class="o">)</span><span class="k">:</span> <span class="o">(</span><span class="kt">Coffee</span><span class="o">,</span> <span class="kt">Charge</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
     <span class="c1">// val声明一个不可变的变量
@@ -253,6 +256,7 @@
 <p>利用这种方法可以将任何有side effect的函数的side effect推到程序的最外层.函数式程序经常是只包含pure function的核心,以及一层用来处理side effect的逻辑.</p>
 
 <h2 id="pure-function-1">到底什么是pure function</h2>
+
 <p><strong>定义Referential transparency</strong></p>
 
 <p><strong>e是一个表达式,如果对所有的的程序p执行如下操作不改变p的意义,那么称e是Referential transparency的:将程序p中所有出现e的地方用e的计算结果来代替</strong></p>
@@ -266,6 +270,20 @@
 </article>
 <hr />
 
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
 
     
     
@@ -373,6 +391,7 @@
 <script src="https://heartup.github.io/static/js/material.min.js"></script>
 <script src="https://heartup.github.io/static/js/main.js"></script>
 <script src="https://heartup.github.io/static/js/projects.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
