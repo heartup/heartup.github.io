@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 02 Apr 2018 14:07:08 +0800</pubDate>
-    <lastBuildDate>Mon, 02 Apr 2018 14:07:08 +0800</lastBuildDate>
+    <pubDate>Tue, 03 Apr 2018 09:17:17 +0800</pubDate>
+    <lastBuildDate>Tue, 03 Apr 2018 09:17:17 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -35,6 +35,14 @@
 &lt;p&gt;在这里，假定\(x^{(i)} _0 = 1, x^{(i)} _1 = x\)，当做了这种假定时，可以将Univariate线性回归推广到多元线性回归。&lt;/p&gt;
 
 &lt;p&gt;这种梯度下降算法成为Batch Gradient Descent，因为每一步计算用到了训练集里面的所有数据。&lt;/p&gt;
+
+&lt;h4 id=&quot;debug&quot;&gt;如何Debug梯度下降算法和选择学习率&lt;/h4&gt;
+
+&lt;p&gt;\(J(\theta)\) 在每次迭代后都会减少标志着算法的正确。&lt;/p&gt;
+
+&lt;p&gt;如果学习率\(\alpha\)足够小，梯度下降算法总能保证代价函数的值每次迭代都减少。&lt;/p&gt;
+
+&lt;p&gt;另外，尽量使输入值通过Feature Scaling将输入值限定在\(-1\le x_i \le 1\)的范围内，同时，学习率可以依照\(0.001, 0.003, 0.01, 0.03, …\)的顺序尝试，找到合适的学习率。&lt;/p&gt;
 
 &lt;h4 id=&quot;section-1&quot;&gt;多项式回归&lt;/h4&gt;
 
