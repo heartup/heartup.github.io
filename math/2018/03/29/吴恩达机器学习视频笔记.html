@@ -257,6 +257,8 @@
 
 <p>其中：\(Cost(h_\theta (x^{(i)}),y^{(i)}) = -y \ln {(h_\theta (x))} - (1 - y)\ln {(1 - {h_\theta (x)})}\) 注意其中y只可能取0，或者1</p>
 
+<p>注意：\(Cost(h_\theta (x^{(i)}),y^{(i)}) \approx - {(h_\theta (x) - y)}^2\)</p>
+
 <p>使用这种形式的Cost函数，梯度下降算法将和线性回归一致（因为计算导数的公式一致）。</p>
 
 <h4 id="section-3">多元分类问题</h4>
@@ -281,6 +283,16 @@
 
 <h4 id="cost">神经网络的COST函数</h4>
 
+<p>假设训练集有\(m\)条目，\(L\)是神经网络的层数，\(s_l\)为第\(l\)层神经元的个数，
+\(K\)为输出层神经元的个数（当K为1时，对应2元分类，K为k时对应k元分类器）。</p>
+
+<script type="math/tex; mode=display">h_\Theta(x) \in \mathbb{R} ^K, (h_\Theta(x))_i=i^{th} 输出</script>
+
+<script type="math/tex; mode=display">J(\Theta)=- \frac{1}{m} \lbrack \sum_{i=1}^{m} \sum_{k=1}^{K} y_k^{(i)} \ln {(h_\Theta(x^{i}))_k} + (1 - y_k^{(i)}) \ln {(1 - (h_\Theta(x^{i}))_k)} \rbrack</script>
+
+<p>可以用从输出层逐层往前计算的方式得到\(\frac{\partial}{\partial \Theta _{i,j}} J(\Theta) \) 在当前训练集下的值。这个逐层递推的公式如下：</p>
+
+<script type="math/tex; mode=display"></script>
 </div>
 </article>
 <hr />

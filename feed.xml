@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 03 Apr 2018 09:17:17 +0800</pubDate>
-    <lastBuildDate>Tue, 03 Apr 2018 09:17:17 +0800</lastBuildDate>
+    <pubDate>Tue, 03 Apr 2018 22:21:15 +0800</pubDate>
+    <lastBuildDate>Tue, 03 Apr 2018 22:21:15 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -67,6 +67,8 @@
 
 &lt;p&gt;其中：\(Cost(h_\theta (x^{(i)}),y^{(i)}) = -y \ln {(h_\theta (x))} - (1 - y)\ln {(1 - {h_\theta (x)})}\) 注意其中y只可能取0，或者1&lt;/p&gt;
 
+&lt;p&gt;注意：\(Cost(h_\theta (x^{(i)}),y^{(i)}) \approx - {(h_\theta (x) - y)}^2\)&lt;/p&gt;
+
 &lt;p&gt;使用这种形式的Cost函数，梯度下降算法将和线性回归一致（因为计算导数的公式一致）。&lt;/p&gt;
 
 &lt;h4 id=&quot;section-3&quot;&gt;多元分类问题&lt;/h4&gt;
@@ -91,6 +93,16 @@
 
 &lt;h4 id=&quot;cost&quot;&gt;神经网络的COST函数&lt;/h4&gt;
 
+&lt;p&gt;假设训练集有\(m\)条目，\(L\)是神经网络的层数，\(s_l\)为第\(l\)层神经元的个数，
+\(K\)为输出层神经元的个数（当K为1时，对应2元分类，K为k时对应k元分类器）。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_\Theta(x) \in \mathbb{R} ^K, (h_\Theta(x))_i=i^{th} 输出&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\Theta)=- \frac{1}{m} \lbrack \sum_{i=1}^{m} \sum_{k=1}^{K} y_k^{(i)} \ln {(h_\Theta(x^{i}))_k} + (1 - y_k^{(i)}) \ln {(1 - (h_\Theta(x^{i}))_k)} \rbrack&lt;/script&gt;
+
+&lt;p&gt;可以用从输出层逐层往前计算的方式得到\(\frac{\partial}{\partial \Theta _{i,j}} J(\Theta) \) 在当前训练集下的值。这个逐层递推的公式如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;&lt;/script&gt;
 </description>
         <pubDate>Thu, 29 Mar 2018 00:00:00 +0800</pubDate>
         <link>https://heartup.github.iohttps://heartup.github.io/math/2018/03/29/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0.html</link>
