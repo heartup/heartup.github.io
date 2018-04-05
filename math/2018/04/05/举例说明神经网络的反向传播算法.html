@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>举例说明神经网络的反向传播算法 - Li Huanhuan</title>
+        <meta name="author" content="Li Huanhuan" />
+        <meta name="description" content="举例说明神经网络的反向传播算法" />
+        <meta name="keywords" content="举例说明神经网络的反向传播算法, Li Huanhuan, math" />
+
+        <meta content="0" property="fb:app_id">
+        <meta content="Li Huanhuan" property="og:site_name">
+        
+          <meta content="举例说明神经网络的反向传播算法" property="og:title">
+        
+        
+          <meta content="article" property="og:type">
+        
+        
+          <meta content="My Personal Blog" property="og:description">
+        
+        
+          <meta content="https://heartup.github.io/math/2018/04/05/%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html" property="og:url">
+        
+        
+          <meta content="2018-04-05T00:00:00+08:00" property="article:published_time">
+          <meta content="https://heartup.github.io/about/" property="article:author">
+        
+        
+          <meta content="https://heartup.github.io/static/img/logo-high-resolution.png" property="og:image">
+        
+        
+          
+          <meta content="math" property="article:section">
+          
+        
+        
+          
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@\#">
+        <meta name="twitter:creator" content="@\#">
+        
+          <meta name="twitter:title" content="举例说明神经网络的反向传播算法">
+        
+        
+          <meta name="twitter:url" content="https://heartup.github.io/math/2018/04/05/%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html">
+        
+        
+          <meta name="twitter:description" content="My Personal Blog">
+        
+        
+
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+        <!-- FontAwesome icons -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/74dfc6cf47.css">
+
+        <!-- Core BootStrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <!-- Material Design CSS -->
+        <link rel="stylesheet" href="https://heartup.github.io/static/css/bootstrap-material-design.min.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="https://heartup.github.io/static/css/syntax.css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="https://heartup.github.io/static/css/thickbox.css">
+        <link rel="stylesheet" href="https://heartup.github.io/static/css/main.css">
+        <link rel="stylesheet" href="https://heartup.github.io/static/css/projects.css">
+
+        <script type="text/javascript">
+          //loadingImage is relative to project dir
+          var tb_pathToImage = "https://heartup.github.io/static/img/loadingAnimation.gif";
+        </script>
+
+  </head>
+
+  <body class="home overflow-hidden">
+    <div class="header-panel shadow-z-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 col-sm-4 col-xs-12">
+            <div class="row-picture">
+              <img id="about" class="logo-img" src="/static/img/avatar.png" height="75px" width="75px">
+            </div>
+            <div class="row-details">
+              <h4 class="list-group-item-heading">Li Huanhuan</h4>
+              <p class="list-group-item-text">Developer</p>
+              <div class="social-icons">
+	
+        <a class="icon" target="_blank" href=""><i class="fa fa-facebook"></i></a>
+    
+        <a class="icon" target="_blank" href=""><i class="fa fa-twitter"></i></a>
+    
+        <a class="icon" target="_blank" href=""><i class="fa fa-linkedin"></i></a>
+    
+        <a class="icon" target="_blank" href=""><i class="fa fa-stack-exchange"></i></a>
+    
+</div>
+
+            </div>
+            <div class="navbar-header pull-right">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-2x fa-bars"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-9 col-sm-8 col-xs-12">
+            <h2 class="blog-title-pro">举例说明神经网络的反向传播算法</h2>
+            <p class="info">
+              
+                <span class="time">05 Apr 2018</span>
+              
+              
+                <span class="categories">
+                  &raquo; 
+                  
+                    <a href="/category/math">math</a>
+                    
+                  
+                </span>
+              
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main outer">
+      <div class="row">
+        <div class="col-md-3 col-xs-12">
+              <nav class="menu">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="list-separator nav navbar-nav well well-primary post">
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12 current-menu-item %E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html"><a href="https://heartup.github.io/" target="_self"><i class="fa fa-home"></i> Home</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  %E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html"><a href="https://heartup.github.io/about/" target="_self"><i class="fa fa-comments"></i> About</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  %E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html"><a href="https://heartup.github.io/projects" target="_self"><i class="fa fa-github"></i> Projects</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  %E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html"><a href="https://heartup.github.io/resume" target="_self"><i class="fa fa-graduation-cap"></i> Resume</a></li>
+
+	
+	
+	
+	
+	
+	
+    
+	
+	<li class="col-lg-12 col-md-12 col-sm-4 col-xs-12  %E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html"><a href="https://heartup.github.io/feed.xml" target="_blank"><i class="fa fa-feed"></i> XML Feed</a></li>
+
+</ul>
+
+    </div>
+    </nav>
+
+        </div>
+        <div class="col-md-9 col-xs-12 full">
+          <div class="post-content well">
+<article class="content">
+    <div class="post"><h4 id="section">示例神经网络</h4>
+
+<p><img src="https://heartup.github.io/static/img/nn.jpg" alt="nn.png" /></p>
+
+<p>训练集包含100条数据，每条数据有3个特征值，对应的输出有3个值（分3类），底标均从1开始。</p>
+
+<h4 id="section-1">标志说明</h4>
+
+<p>\(x^{(i)}_j\)表示训练集第\(i\)条数据的第\(j\)个特征值，同时表示矩阵\(X\)的第\(i\)行第\(j\)列，</p>
+
+<p>\(y^{(i)}_j\)表示训练集第\(i\)条数据应有的输出向量的第\(j\)个值，同时表示矩阵\(Y\)的第\(i\)行第\(j\)列，</p>
+
+<p>\(w^{(i \to j)} _{m n}\)表示第\(i\)层的第\(m\)个神经元到第\(j\)层的第\(n\)个神经元之间的连线，同时表示矩阵\(W^{(i \to j)}\)的第\(m\)行第\(n\)列，</p>
+
+<p>\(zl^{(i)} _j \)表示训练集第\(i\)条数据第\(l\)层第\(j\)个神经元中激活函数的输入，</p>
+
+<p>\(al^{(i)} _j \)表示训练集第\(i\)条数据第\(l\)层第\(j\)个神经元中激活函数的输出，同时也是矩阵\(Al\)的第\(i\)行第\(j\)列，</p>
+
+<p>\(cost^{(i)}\)表示训练集第\(i\)条数据的损失函数，其中</p>
+
+<script type="math/tex; mode=display">cost^{(i)} = \sum _j cost^{(i)}_j, cost^{(i)}_j = \frac{1}{2} (a3 ^{(i)} _j - y ^{(i)} _j )^2</script>
+
+<p>\(J\)表示整个训练集对应的损失函数，其中</p>
+
+<script type="math/tex; mode=display">J = \frac{1}{100} \sum _{i = 1} ^{100} cost^{(i)}</script>
+
+<h4 id="section-2">计算过程</h4>
+
+<ul>
+  <li>计算\(\epsilon 3 = A3 - Y\)，即</li>
+</ul>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\epsilon 3 = \begin{bmatrix}
+{a3^{(1)}_1 - y^{(1)}_1}&{a3^{(1)}_2 - y^{(1)}_2}&{a3^{(1)}_3 - y^{(1)}_3}\\
+{a3^{(2)}_1 - y^{(2)}_1}&{a3^{(2)}_2 - y^{(2)}_2}&{a3^{(2)}_3 - y^{(2)}_3}\\
+{\vdots}&{\vdots}&{\vdots}\\
+{a3^{(100)}_1 - y^{(100)}_1}&{a3^{(100)}_2 - y^{(100)}_2}&{a3^{(100)}_3 - y^{(100)}_3}\\
+\end{bmatrix} %]]></script>
+
+<p>容易知道</p>
+
+<script type="math/tex; mode=display">\epsilon 3_{ij} = \frac{\partial{cost^{(i)}_j}}{\partial{a3^{(i)}_j}}</script>
+
+<ul>
+  <li>计算\(\delta 3 = \epsilon 3 .* g’(A3)\)，其中\(g’ _{ij} = a3^{(i)} _j (1 - a3^{(i)} _j)\)</li>
+</ul>
+
+<p>容易知道</p>
+
+<script type="math/tex; mode=display">\delta 3_{ij} = \frac{\partial{cost^{(i)}_j}}{\partial{z3^{(i)}_j}}</script>
+
+<ul>
+  <li>计算\(\epsilon 2 = \delta 3 \times (W^{(2\to 3)})^T \)</li>
+</ul>
+
+<p>注意到\(\delta 3 \)是\(100\times3\)的矩阵，\(W^{(2\to 3)}\)是\(4\times3\)的矩阵，故\(\epsilon 2\)是\(100\times4\)的矩阵。</p>
+
+<p>观察到</p>
+
+<script type="math/tex; mode=display">\epsilon 2_{45,3} = \delta 3 ^{(45)} _1 w^{(2 \to 3)}_{3,1} + \delta 3 ^{(45)} _2 w^{(2 \to 3)}_{3,2} + \delta 3 ^{(45)} _3 w^{(2 \to 3)}_{3,3}</script>
+
+<p>根据链式法则知道</p>
+
+<script type="math/tex; mode=display">\epsilon 2 _{i,j} = \frac{\partial cost^{(i)}}{\partial a2^{(i)}_j}</script>
+
+<ul>
+  <li>计算\(\delta 2 = \epsilon 2 .* g’(A2)\)，其中\(g’ _{ij} = a2^{(i)} _j (1 - a2^{(i)} _j)\)</li>
+</ul>
+
+<p>容易知道</p>
+
+<script type="math/tex; mode=display">\delta 2_{ij} = \frac{\partial{cost^{(i)}}}{\partial{z2^{(i)}_j}}</script>
+
+<ul>
+  <li>计算\(\varphi ^{(2 \to 3)} = A2^T \times \delta 3\)</li>
+</ul>
+
+<p>注意到\(\delta 3 \)是\(100\times3\)的矩阵，\(A2\)是\(100\times 4\)的矩阵，故\(\varphi ^{(2 \to 3)} \)是\(4\times3\)的矩阵，
+并且与\(W ^{(2 \to 3)} \)的形式相同。</p>
+
+<p>观察到</p>
+
+<script type="math/tex; mode=display">\varphi ^{(2 \to 3)} _{3,2} = a2^{(1)} _3 \delta 3 _{1,2} + a2^{(2)} _3 \delta 3 _{2,2} + a2^{(3)} _3 \delta 3 _{3,2} + \cdots + a2^{(100)} _3 \delta 3 _{100,2}</script>
+
+<p>因为</p>
+
+<script type="math/tex; mode=display">\frac{\partial cost^{(i)}}{w^{(2 \to 3)} _{3,2}} = \frac{\partial cost^{(i)} _2}{w^{(2 \to 3)} _{3,2}}</script>
+
+<script type="math/tex; mode=display">\frac{\partial z3^{(i)} _2}{w^{(2 \to 3)} _{3,2}} = a2^{(i)} _3</script>
+
+<p>结合</p>
+
+<script type="math/tex; mode=display">\delta 3_{i,2} = \frac{\partial{cost^{(i)}_2}}{\partial{z3^{(i)}_2}}</script>
+
+<p>知道</p>
+
+<script type="math/tex; mode=display">a2^{(i)} _3 \delta 3_{i,2} = \frac{\partial cost^{(i)}}{w^{(2 \to 3)} _{3,2}}</script>
+
+<p>因此</p>
+
+<script type="math/tex; mode=display">\varphi ^{(2 \to 3)} _{3,2} = 100 \times \frac{\partial J}{w^{(2 \to 3)} _{3,2}}</script>
+
+<p>至此，我们知道可以用公式</p>
+
+<script type="math/tex; mode=display">W^{(2 \to 3)} = W^{(2 \to 3)} - \alpha \varphi ^{(2 \to 3)}</script>
+
+<p>优化\(W^{(2 \to 3)}\)</p>
+
+<ul>
+  <li>计算\(\varphi ^{(1 \to 2)} = A1^T \times \delta 2\)</li>
+</ul>
+
+<p>注意到\(\delta 2 \)是\(100\times 4\)的矩阵，\(A1\)是\(100\times 3\)的矩阵，故\(\varphi ^{(1 \to 2)} \)是\(3\times4\)的矩阵，
+并且与\(W ^{(1 \to 2)} \)的形式相同。</p>
+
+<p>观察到</p>
+
+<script type="math/tex; mode=display">\varphi ^{(1 \to 2)} _{2,3} = a1^{(1)} _2 \delta 2 _{1,3} + a1^{(2)} _2 \delta 2 _{2,3} + a1^{(3)} _2 \delta 2 _{3,3} + \cdots + a1^{(100)} _2 \delta 2 _{100,3}</script>
+
+<p>因为</p>
+
+<script type="math/tex; mode=display">\frac{\partial z2^{(i)} _3}{w^{(1 \to 2)} _{2,3}} = a1^{(i)} _2</script>
+
+<p>结合</p>
+
+<script type="math/tex; mode=display">\delta 2_{i,3} = \frac{\partial{cost^{(i)}}}{\partial{z2^{(i)}_3}}</script>
+
+<p>知道</p>
+
+<script type="math/tex; mode=display">a1^{(i)} _2 \delta 2_{i,3} = \frac{\partial cost^{(i)}}{w^{(1 \to 2)} _{2,3}}</script>
+
+<p>因此</p>
+
+<script type="math/tex; mode=display">\varphi ^{(1 \to 2)} _{2,3} = 100 \times \frac{\partial J}{w^{(1 \to 2)} _{2,3}}</script>
+
+<p>至此，我们知道可以用公式</p>
+
+<script type="math/tex; mode=display">W^{(1 \to 2)} = W^{(1 \to 2)} - \alpha \varphi ^{(1 \to 2)}</script>
+
+<p>优化\(W^{(1 \to 2)}\)</p>
+</div>
+</article>
+<hr />
+
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <div class="panel-body">
+                <h4>Related Posts</h4>
+                <ul>
+                
+                <li class="relatedPost">
+                    <a href="https://heartup.github.io/math/2018/03/29/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0.html">吴恩达机器学习视频笔记</a>
+                    
+                        <small>(Categories: <a href="/category/math">math</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+                
+                <li class="relatedPost">
+                    <a href="https://heartup.github.io/math/2018/03/27/%E7%AC%AC2%E7%AB%A0-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83.html">第2章 随机变量及其分布</a>
+                    
+                        <small>(Categories: <a href="/category/math">math</a>)</small>
+                    
+                </li>
+                
+                
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+    
+    
+        
+            
+        
+    
+
+
+    </ul>
+    </div>
+
+
+<div class="PageNavigation">
+  
+    <a class="prev pull-left" href="/math/2018/03/29/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0.html">&laquo; 吴恩达机器学习视频笔记</a>
+  
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+    <div height="40px"/>
+    <!--<script type="text/javascript">-->
+        <!--/* <![CDATA[ */-->
+
+        <!--var disqus_shortname = "lihuanhuan";-->
+        <!--var disqus_identifier = "https://heartup.github.io_举例说明神经网络的反向传播算法";-->
+        <!--var disqus_title = "举例说明神经网络的反向传播算法";-->
+
+        <!--/* * * DON'T EDIT BELOW THIS LINE * * */-->
+        <!--(function() {-->
+            <!--var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;-->
+            <!--dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';-->
+            <!--(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);-->
+        <!--})();-->
+    <!--/* ]]> */-->
+    <!--</script>-->
+</div>
+</div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 footer">
+              <footer>
+  © 2016 heartup@gmail.com <a href="#">Privacy link</a> - Powered by Jekyll.
+</footer>
+<div align="center">
+  <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+  <!--<ins class="adsbygoogle"-->
+    <!--style="display:block"-->
+    <!--data-ad-client="ca-pub-0000000000000000"-->
+    <!--data-ad-slot="0000000000"-->
+    <!--data-ad-format="auto"></ins>-->
+  <!--<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>-->
+</div>
+
+            </div>
+          </div>
+        </div> <!-- end /.col-md-9 -->
+      </div> <!-- end /.row -->
+    </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://heartup.github.io/static/js/thickbox-compressed.js"></script>
+<script src="https://heartup.github.io/static/js/material.min.js"></script>
+<script src="https://heartup.github.io/static/js/main.js"></script>
+<script src="https://heartup.github.io/static/js/projects.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+    <!--<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-88029887-1', 'auto');
+  ga('send', 'pageview');
+
+</script>-->
+  </body>
+</html>
