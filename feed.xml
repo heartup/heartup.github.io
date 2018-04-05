@@ -5,19 +5,157 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 05 Apr 2018 18:45:57 +0800</pubDate>
-    <lastBuildDate>Thu, 05 Apr 2018 18:45:57 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Apr 2018 22:19:13 +0800</pubDate>
+    <lastBuildDate>Thu, 05 Apr 2018 22:19:13 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>举例说明神经网络的方向传播算法</title>
+        <title>举例说明神经网络的反向传播算法</title>
         <description>&lt;h4 id=&quot;section&quot;&gt;示例神经网络&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://heartup.github.io/static/img/nn.png&quot; alt=&quot;nn.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://heartup.github.io/static/img/nn.jpg&quot; alt=&quot;nn.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;训练集包含100条数据，每条数据有3个特征值，对应的输出有3个值（分3类），底标均从1开始。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;标志说明&lt;/h4&gt;
+
+&lt;p&gt;\(x^{(i)}_j\)表示训练集第\(i\)条数据的第\(j\)个特征值，同时表示矩阵\(X\)的第\(i\)行第\(j\)列，&lt;/p&gt;
+
+&lt;p&gt;\(y^{(i)}_j\)表示训练集第\(i\)条数据应有的输出向量的第\(j\)个值，同时表示矩阵\(Y\)的第\(i\)行第\(j\)列，&lt;/p&gt;
+
+&lt;p&gt;\(w^{(i \to j)} _{m n}\)表示第\(i\)层的第\(m\)个神经元到第\(j\)层的第\(n\)个神经元之间的连线，同时表示矩阵\(W^{(i \to j)}\)的第\(m\)行第\(n\)列，&lt;/p&gt;
+
+&lt;p&gt;\(zl^{(i)} _j \)表示训练集第\(i\)条数据第\(l\)层第\(j\)个神经元中激活函数的输入，&lt;/p&gt;
+
+&lt;p&gt;\(al^{(i)} _j \)表示训练集第\(i\)条数据第\(l\)层第\(j\)个神经元中激活函数的输出，同时也是矩阵\(Al\)的第\(i\)行第\(j\)列，&lt;/p&gt;
+
+&lt;p&gt;\(cost^{(i)}\)表示训练集第\(i\)条数据的损失函数，其中&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;cost^{(i)} = \sum _j cost^{(i)}_j, cost^{(i)}_j = \frac{1}{2} (a3 ^{(i)} _j - y ^{(i)} _j )^2&lt;/script&gt;
+
+&lt;p&gt;\(J\)表示整个训练集对应的损失函数，其中&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;J = \frac{1}{100} \sum _{i = 1} ^{100} cost^{(i)}&lt;/script&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;计算过程&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;计算\(\epsilon 3 = A3 - Y\)，即&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\epsilon 3 = \begin{bmatrix}
+{a3^{(1)}_1 - y^{(1)}_1}&amp;{a3^{(1)}_2 - y^{(1)}_2}&amp;{a3^{(1)}_3 - y^{(1)}_3}\\
+{a3^{(2)}_1 - y^{(2)}_1}&amp;{a3^{(2)}_2 - y^{(2)}_2}&amp;{a3^{(2)}_3 - y^{(2)}_3}\\
+{\vdots}&amp;{\vdots}&amp;{\vdots}\\
+{a3^{(100)}_1 - y^{(100)}_1}&amp;{a3^{(100)}_2 - y^{(100)}_2}&amp;{a3^{(100)}_3 - y^{(100)}_3}\\
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;容易知道&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\epsilon 3_{ij} = \frac{\partial{cost^{(i)}_j}}{\partial{a3^{(i)}_j}}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;计算\(\delta 3 = \epsilon 3 .* g’(A3)\)，其中\(g’ _{ij} = a3^{(i)} _j (1 - a3^{(i)} _j)\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;容易知道&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\delta 3_{ij} = \frac{\partial{cost^{(i)}_j}}{\partial{z3^{(i)}_j}}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;计算\(\epsilon 2 = \delta 3 \times (W^{(2\to 3)})^T \)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意到\(\delta 3 \)是\(100\times3\)的矩阵，\(W^{(2\to 3)}\)是\(4\times3\)的矩阵，故\(\epsilon 2\)是\(100\times4\)的矩阵。&lt;/p&gt;
+
+&lt;p&gt;观察到&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\epsilon 2_{45,3} = \delta 3 ^{(45)} _1 w^{(2 \to 3)}_{3,1} + \delta 3 ^{(45)} _2 w^{(2 \to 3)}_{3,2} + \delta 3 ^{(45)} _3 w^{(2 \to 3)}_{3,3}&lt;/script&gt;
+
+&lt;p&gt;根据链式法则知道&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\epsilon 2 _{i,j} = \frac{\partial cost^{(i)}}{\partial a2^{(i)}_j}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;计算\(\delta 2 = \epsilon 2 .* g’(A2)\)，其中\(g’ _{ij} = a2^{(i)} _j (1 - a2^{(i)} _j)\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;容易知道&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\delta 2_{ij} = \frac{\partial{cost^{(i)}}}{\partial{z2^{(i)}_j}}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;计算\(\varphi ^{(2 \to 3)} = A2^T \times \delta 3\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意到\(\delta 3 \)是\(100\times3\)的矩阵，\(A2\)是\(100\times 4\)的矩阵，故\(\varphi ^{(2 \to 3)} \)是\(4\times3\)的矩阵，
+并且与\(W ^{(2 \to 3)} \)的形式相同。&lt;/p&gt;
+
+&lt;p&gt;观察到&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi ^{(2 \to 3)} _{3,2} = a2^{(1)} _3 \delta 3 _{1,2} + a2^{(2)} _3 \delta 3 _{2,2} + a2^{(3)} _3 \delta 3 _{3,2} + \cdots + a2^{(100)} _3 \delta 3 _{100,2}&lt;/script&gt;
+
+&lt;p&gt;因为&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial cost^{(i)}}{w^{(2 \to 3)} _{3,2}} = \frac{\partial cost^{(i)} _2}{w^{(2 \to 3)} _{3,2}}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z3^{(i)} _2}{w^{(2 \to 3)} _{3,2}} = a2^{(i)} _3&lt;/script&gt;
+
+&lt;p&gt;结合&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\delta 3_{i,2} = \frac{\partial{cost^{(i)}_2}}{\partial{z3^{(i)}_2}}&lt;/script&gt;
+
+&lt;p&gt;知道&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;a2^{(i)} _3 \delta 3_{i,2} = \frac{\partial cost^{(i)}}{w^{(2 \to 3)} _{3,2}}&lt;/script&gt;
+
+&lt;p&gt;因此&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi ^{(2 \to 3)} _{3,2} = 100 \times \frac{\partial J}{w^{(2 \to 3)} _{3,2}}&lt;/script&gt;
+
+&lt;p&gt;至此，我们知道可以用公式&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;W^{(2 \to 3)} = W^{(2 \to 3)} - \alpha \varphi ^{(2 \to 3)}&lt;/script&gt;
+
+&lt;p&gt;优化\(W^{(2 \to 3)}\)&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;计算\(\varphi ^{(1 \to 2)} = A1^T \times \delta 2\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意到\(\delta 2 \)是\(100\times 4\)的矩阵，\(A1\)是\(100\times 3\)的矩阵，故\(\varphi ^{(1 \to 2)} \)是\(3\times4\)的矩阵，
+并且与\(W ^{(1 \to 2)} \)的形式相同。&lt;/p&gt;
+
+&lt;p&gt;观察到&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi ^{(1 \to 2)} _{2,3} = a1^{(1)} _2 \delta 2 _{1,3} + a1^{(2)} _2 \delta 2 _{2,3} + a1^{(3)} _2 \delta 2 _{3,3} + \cdots + a1^{(100)} _2 \delta 2 _{100,3}&lt;/script&gt;
+
+&lt;p&gt;因为&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial z2^{(i)} _3}{w^{(1 \to 2)} _{2,3}} = a1^{(i)} _2&lt;/script&gt;
+
+&lt;p&gt;结合&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\delta 2_{i,3} = \frac{\partial{cost^{(i)}}}{\partial{z2^{(i)}_3}}&lt;/script&gt;
+
+&lt;p&gt;知道&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;a1^{(i)} _2 \delta 2_{i,3} = \frac{\partial cost^{(i)}}{w^{(1 \to 2)} _{2,3}}&lt;/script&gt;
+
+&lt;p&gt;因此&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\varphi ^{(1 \to 2)} _{2,3} = 100 \times \frac{\partial J}{w^{(1 \to 2)} _{2,3}}&lt;/script&gt;
+
+&lt;p&gt;至此，我们知道可以用公式&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;W^{(1 \to 2)} = W^{(1 \to 2)} - \alpha \varphi ^{(1 \to 2)}&lt;/script&gt;
+
+&lt;p&gt;优化\(W^{(1 \to 2)}\)&lt;/p&gt;
 </description>
         <pubDate>Thu, 05 Apr 2018 00:00:00 +0800</pubDate>
-        <link>https://heartup.github.iohttps://heartup.github.io/math/2018/04/05/%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E6%96%B9%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html</link>
-        <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/math/2018/04/05/%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E6%96%B9%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html</guid>
+        <link>https://heartup.github.iohttps://heartup.github.io/math/2018/04/05/%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html</link>
+        <guid isPermaLink="true">https://heartup.github.iohttps://heartup.github.io/math/2018/04/05/%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95.html</guid>
         
         
         <category>math</category>
