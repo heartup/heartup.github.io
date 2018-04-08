@@ -5,8 +5,8 @@
     <description>My Personal Blog</description>
     <link>https://heartup.github.iohttps://heartup.github.io/</link>
     <atom:link href="https://heartup.github.iohttps://heartup.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 05 Apr 2018 22:23:29 +0800</pubDate>
-    <lastBuildDate>Thu, 05 Apr 2018 22:23:29 +0800</lastBuildDate>
+    <pubDate>Sun, 08 Apr 2018 20:44:54 +0800</pubDate>
+    <lastBuildDate>Sun, 08 Apr 2018 20:44:54 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -254,6 +254,11 @@
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\Theta)=- \frac{1}{m} \lbrack \sum_{i=1}^{m} \sum_{k=1}^{K} y_k^{(i)} \ln {(h_\Theta(x^{i}))_k} + (1 - y_k^{(i)}) \ln {(1 - (h_\Theta(x^{i}))_k)} \rbrack&lt;/script&gt;
 
 &lt;p&gt;可以用从输出层逐层往前计算的方式得到\(\frac{\partial}{\partial \Theta _{i,j}} J(\Theta) \) 在当前训练集下的值。&lt;/p&gt;
+
+&lt;h4 id=&quot;overfitting&quot;&gt;overfitting&lt;/h4&gt;
+
+&lt;p&gt;overfitting是训练模型过程中经常出现的问题，overfitting的算法导致模型具有”高方差”，出现这种问题的原因是输入feature过多。可以通过视觉化模型的方式
+寻找合适的模型，或者通过减少feature的方式，如果不好减少feature，可以通过降低模型中参数的绝对值，这样就降低了每个feature对结果的影响，这就是正则化Cost函数的方式。&lt;/p&gt;
 </description>
         <pubDate>Thu, 29 Mar 2018 00:00:00 +0800</pubDate>
         <link>https://heartup.github.iohttps://heartup.github.io/math/2018/03/29/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0.html</link>
