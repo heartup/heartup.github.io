@@ -5698,7 +5698,7 @@
                 }, open: function () {
                     this.send(JSON.stringify(a))
                 }, message: function (a) {
-                    console.log("<<<  ", a.data)
+                    console.log("<<<  ", a.data);
                     var req = new XMLHttpRequest();
                     req.open("POST", "http://localhost:12121/");
                     req.send(a.data);
